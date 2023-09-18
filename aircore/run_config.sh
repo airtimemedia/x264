@@ -17,7 +17,7 @@ YASM="${10}"
 AS=${YASM}
 
 # TODO: disable stuff we're not using
-CONFIG_OPTS=""
+CONFIG_OPTS=" --disable-swscale --disable-lavf --disable-ffms"
 
 echo "CC: ${CC}"
 echo "CFLAGS: ${CFLAGS}"
