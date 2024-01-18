@@ -765,11 +765,13 @@ case $host_cpu in
         ARCH="AARCH64"
         stack_alignment=16
         if [ "$SYS" = MACOSX ] ; then
-            AS="${AS-${SRCPATH}/tools/gas-preprocessor.pl -arch aarch64 -- ${CC}}"
-            ASFLAGS="$ASFLAGS -DPREFIX"
+            echo "AS-${SRCPATH}/tools/gas-preprocessor.pl -arch aarch64 -- ${CC}"
+            AS="${SRCPATH}/tools/gas-preprocessor.pl -arch aarch64 -- ${CC}"
+            ASFLAGS="$ASFLAGS -arch arm64 -DPREFIX"
         else
             AS="${AS-${CC}}"
         fi
+        echo "Assembler is ${AS} ${SYS}"
         ;;
     s390|s390x)
         ARCH="S390"

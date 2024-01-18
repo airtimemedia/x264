@@ -32,7 +32,11 @@ if [ "$OS" = "android" ] ; then
   export CPP="${CC} -E"
 elif [ "x$OS" = "xosx" ] ; then
   OS=darwin12
-  CONFIG_OPTS="$CONFIG_OPTS --host=x86_64-apple-darwin"
+  if [ "${ARCH}" = "arm64" ] ; then
+    CONFIG_OPTS="$CONFIG_OPTS --host=aarch64-apple-darwin"
+  elif [ "${ARCH}" = "x86_64" ]; then
+    CONFIG_OPTS="$CONFIG_OPTS --host=x86_64-apple-darwin"
+  fi
 elif [ "x$OS" = "xios" ] ; then
   OS=darwin
   if [ "x$ARCH" = "xi386" -o "x$ARCH" = "xx86_64" ] ; then
