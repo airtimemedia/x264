@@ -11,11 +11,12 @@ CCACHE="$6"
 AR="$7"
 RANLIB="$8"
 LDFLAGS="$9"
-YASM="${10}"
+NASM="${10}"
 
-# Default AS to Yasm for x86_64
+# Default AS to Nasm for x86_64
+# Nasm of at least 2.13 is required
 if [ "$ARCH" = "x86_64" ] ; then
-  AS=${YASM}
+  AS=${NASM}
 fi
 
 # TODO: disable stuff we're not using
