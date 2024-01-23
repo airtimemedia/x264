@@ -13,8 +13,10 @@ RANLIB="$8"
 LDFLAGS="$9"
 YASM="${10}"
 
-# Default AS to Yasm
-AS=${YASM}
+# Default AS to Yasm for x86_64
+if [ "$ARCH" = "x86_64" ] ; then
+  AS=${YASM}
+fi
 
 # TODO: disable stuff we're not using
 CONFIG_OPTS=" --disable-swscale --disable-lavf --disable-ffms"
