@@ -34,8 +34,8 @@ if [ "$OS" = "android" ] ; then
   export RANLIB
   export CPP="${CC} -E"
 elif [ "x$OS" = "xosx" ] ; then
-  OS=darwin12
-  CONFIG_OPTS="$CONFIG_OPTS --host=x86_64-apple-darwin"
+  OS=darwin20
+  CONFIG_OPTS="$CONFIG_OPTS --host=${ARCH}-apple-darwin"
 elif [ "x$OS" = "xios" ] ; then
   OS=darwin
   if [ "x$ARCH" = "xi386" -o "x$ARCH" = "xx86_64" ] ; then
