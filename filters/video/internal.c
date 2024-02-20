@@ -1,7 +1,7 @@
 /*****************************************************************************
  * internal.c: video filter utilities
  *****************************************************************************
- * Copyright (C) 2010-2016 x264 project
+ * Copyright (C) 2010-2023 x264 project
  *
  * Authors: Steven Walters <kemuri9@gmail.com>
  *
@@ -24,6 +24,7 @@
  *****************************************************************************/
 
 #include "internal.h"
+
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, "x264", __VA_ARGS__ )
 
 void x264_cli_plane_copy( uint8_t *dst, int i_dst, uint8_t *src, int i_src, int w, int h )

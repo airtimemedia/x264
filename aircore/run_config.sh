@@ -11,10 +11,13 @@ CCACHE="$6"
 AR="$7"
 RANLIB="$8"
 LDFLAGS="$9"
-YASM="${10}"
+NASM="${10}"
 
-# Default AS to Yasm
-AS=${YASM}
+# Default AS to Nasm for x86_64
+# Nasm of at least 2.13 is required
+if [ "$ARCH" = "x86_64" ] ; then
+  AS=${NASM}
+fi
 
 # TODO: disable stuff we're not using
 CONFIG_OPTS=" --disable-swscale --disable-lavf --disable-ffms"
@@ -31,8 +34,8 @@ if [ "$OS" = "android" ] ; then
   export RANLIB
   export CPP="${CC} -E"
 elif [ "x$OS" = "xosx" ] ; then
-  OS=darwin12
-  CONFIG_OPTS="$CONFIG_OPTS --host=x86_64-apple-darwin"
+  OS=darwin20
+  CONFIG_OPTS="$CONFIG_OPTS --host=${ARCH}-apple-darwin"
 elif [ "x$OS" = "xios" ] ; then
   OS=darwin
   if [ "x$ARCH" = "xi386" -o "x$ARCH" = "xx86_64" ] ; then

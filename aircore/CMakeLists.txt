@@ -2,9 +2,9 @@
 
 project(x264)
 
-find_program(YASM yasm)
-if(YASM STREQUAL "YASM-NOTFOUND")
-  message(FATAL_ERROR "'yasm' not found. Please install. (${YASM})")
+find_program(NASM nasm)
+if(NASM STREQUAL "NASM-NOTFOUND")
+  message(FATAL_ERROR "'nasm' not found. Please install. (${NASM})")
 endif()
 
 if((NOT ${at_target_os} MATCHES osx) AND NOT (${at_target_os} MATCHES linux))
@@ -36,7 +36,7 @@ foreach(ARCH ${ARCHS})
   add_custom_command(
     OUTPUT ${x264_makefile}
     COMMAND "${PROJECT_SOURCE_DIR}/run_config.sh"
-    ARGS "${at_media_deps_dir}/x264" "${AT_CMAKE_C_COMPILER} ${AT_CMAKE_C_COMPILER_ARG1}" "${CMAKE_C_FLAGS_RELEASE}" "${at_target_os}" "${ARCH}" "${at_ccache}" "${CMAKE_AR}" "${CMAKE_RANLIB}" "${CMAKE_SHARED_LINKER_FLAGS}" "${YASM}"
+    ARGS "${at_media_deps_dir}/x264" "${AT_CMAKE_C_COMPILER} ${AT_CMAKE_C_COMPILER_ARG1}" "${CMAKE_C_FLAGS_RELEASE}" "${at_target_os}" "${ARCH}" "${at_ccache}" "${CMAKE_AR}" "${CMAKE_RANLIB}" "${CMAKE_SHARED_LINKER_FLAGS}" "${NASM}"
     WORKING_DIRECTORY ${x264_binary_dir}
     DEPENDS ${PROJECT_SOURCE_DIR}/run_config.sh ${last_configure_target}
     VERBATIM
