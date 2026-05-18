@@ -13,6 +13,17 @@ RANLIB="$8"
 LDFLAGS="$9"
 NASM="${10}"
 
+# Xcode script phases export deployment targets for every Apple platform in the
+# project. x264 configure invokes clang directly, so clear the unrelated
+# platform targets before probing the selected SDK.
+if [ "$OS" = "osx" ] ; then
+  unset DRIVERKIT_DEPLOYMENT_TARGET
+  unset IPHONEOS_DEPLOYMENT_TARGET
+  unset TVOS_DEPLOYMENT_TARGET
+  unset WATCHOS_DEPLOYMENT_TARGET
+  unset XROS_DEPLOYMENT_TARGET
+fi
+
 # Default AS to Nasm for x86_64
 # Nasm of at least 2.13 is required
 if [ "$ARCH" = "x86_64" ] ; then
