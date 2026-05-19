@@ -20,6 +20,17 @@ endif()
 set(x264_lib_files "")
 set(x264_binary_base_dir "${PROJECT_BINARY_DIR}/build")
 
+set(X264_APPLE_ENV_CLEANUP_ARGS "")
+if (OSX)
+  set(X264_APPLE_ENV_CLEANUP_ARGS
+    --unset=DRIVERKIT_DEPLOYMENT_TARGET
+    --unset=IPHONEOS_DEPLOYMENT_TARGET
+    --unset=TVOS_DEPLOYMENT_TARGET
+    --unset=WATCHOS_DEPLOYMENT_TARGET
+    --unset=XROS_DEPLOYMENT_TARGET
+  )
+endif()
+
 # serialize the calls to configure by chaining dependencies since configuring
 # multiple archs in parallel seems to cause issues (at least with Xcode)
 set(last_configure_target "")
@@ -51,7 +62,7 @@ foreach(ARCH ${ARCHS})
   file(GLOB_RECURSE x264_sources src *.c *.h *.s)
   add_custom_command(
     OUTPUT ${libx264_arch_file}
-    COMMAND make # V=1 # add V=1 for verbose output
+    COMMAND ${CMAKE_COMMAND} -E env ${X264_APPLE_ENV_CLEANUP_ARGS} make # V=1 # add V=1 for verbose output
     DEPENDS x264_configure_${ARCH} ${x264_sources}
     WORKING_DIRECTORY ${x264_binary_dir}
   )
