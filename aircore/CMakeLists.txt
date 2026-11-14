@@ -29,6 +29,13 @@ if (OSX)
     --unset=WATCHOS_DEPLOYMENT_TARGET
     --unset=XROS_DEPLOYMENT_TARGET
   )
+  # airtime: start (CAR-2678)
+  # Pass the selected minimum version to C, assembly, and configure probes.
+  if (CMAKE_OSX_DEPLOYMENT_TARGET)
+    list(APPEND X264_APPLE_ENV_CLEANUP_ARGS
+      "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+  endif()
+  # airtime: end
 endif()
 
 # serialize the calls to configure by chaining dependencies since configuring
@@ -46,7 +53,8 @@ foreach(ARCH ${ARCHS})
   # configure
   add_custom_command(
     OUTPUT ${x264_makefile}
-    COMMAND "${PROJECT_SOURCE_DIR}/run_config.sh"
+    # airtime (CAR-2678): configure and make must use the same Apple environment.
+    COMMAND ${CMAKE_COMMAND} -E env ${X264_APPLE_ENV_CLEANUP_ARGS} "${PROJECT_SOURCE_DIR}/run_config.sh"
     ARGS "${at_media_deps_dir}/x264" "${AT_CMAKE_C_COMPILER} ${AT_CMAKE_C_COMPILER_ARG1}" "${CMAKE_C_FLAGS_RELEASE}" "${at_target_os}" "${ARCH}" "${at_ccache}" "${CMAKE_AR}" "${CMAKE_RANLIB}" "${CMAKE_SHARED_LINKER_FLAGS}" "${NASM}"
     WORKING_DIRECTORY ${x264_binary_dir}
     DEPENDS ${PROJECT_SOURCE_DIR}/run_config.sh ${last_configure_target}
